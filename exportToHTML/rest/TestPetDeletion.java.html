@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>TestPetDeletion.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TestPetDeletion.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">rest</span><span class="s0">;</span>
+
+import <span class="s1">helpers.RestApiTestBase</span><span class="s0">;</span>
+import <span class="s1">io.restassured.path.json.JsonPath</span><span class="s0">;</span>
+import <span class="s1">org.junit.jupiter.api.Tag</span><span class="s0">;</span>
+import <span class="s1">org.junit.jupiter.api.Test</span><span class="s0">;</span>
+
+import static <span class="s1">org.junit.jupiter.api.Assertions.assertEquals</span><span class="s0">;</span>
+
+
+public class <span class="s1">TestPetDeletion </span><span class="s0">extends </span><span class="s1">RestApiTestBase {</span>
+
+    @Test
+    @Tag(<span class="s2">&quot;Pet&quot;</span><span class="s1">)</span>
+    <span class="s0">public void </span><span class="s1">shouldRemovePetFromTheStore(){</span>
+        <span class="s0">int </span><span class="s1">petId = faker.number().numberBetween(</span><span class="s3">0</span><span class="s0">,</span><span class="s3">999</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">createPetWithId(petId)</span><span class="s0">;</span>
+        <span class="s1">removePetFromTheStoreById(petId)</span><span class="s0">;</span>
+        <span class="s1">JsonPath response = getPetFromTheStoreById(petId</span><span class="s0">,</span><span class="s3">404</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">assertEquals(response.getInt(</span><span class="s2">&quot;code&quot;</span><span class="s1">)</span><span class="s0">, </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">assertEquals(response.getString(</span><span class="s2">&quot;type&quot;</span><span class="s1">)</span><span class="s0">, </span><span class="s2">&quot;error&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">assertEquals(response.getString(</span><span class="s2">&quot;message&quot;</span><span class="s1">)</span><span class="s0">, </span><span class="s2">&quot;Pet not found&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+}
+</pre>
+</body>
+</html>
